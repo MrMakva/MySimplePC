@@ -23,11 +23,16 @@ $(LIBRARY): $(OBJECTS)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	gcc -Wall -c $< -o $@
 
-#Компиляция и перемещение .o файлов другой вариант
-compile_objects:
+$(SRC_DIR)/%.o: $(mSC)/%.c 
 	for file in $(wildcard $(mSC)/*.c); do \
 		gcc -Wall -c $$file -o $(OBJ_DIR)/$$(basename $$file .c).o; \
 	done
+
+# #Компиляция и перемещение .o файлов другой вариант
+# compile_objects:
+# 	for file in $(wildcard $(mSC)/*.c); do \
+# 		gcc -Wall -c $$file -o $(OBJ_DIR)/$$(basename $$file .c).o; \
+# 	done
 
 # Для форматирования
 SRC_FILES := $(wildcard $(SRC_DIR)/*.c $(mSC)/*.c include/*.h)
