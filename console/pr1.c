@@ -68,7 +68,7 @@ main ()
   printDecodedCommand (accValue);
 
   int encodedValue;
-  sc_commandEncode (1, 30, 40, &encodedValue);
+  sc_commandEncode (1, 1, 40, &encodedValue);
   printf ("Encoded command value:\n");
   printDecodedCommand (encodedValue);
 
