@@ -6,10 +6,10 @@
 #define DIVISION_BY_ZERO_MASK 0b00000100
 #define MEMORY_SIZE 128
 
-int memory[128];
-int accumulator;
-int instructionCounter;
-int flags;
+extern int memory[128];
+extern int accumulator;
+extern int instructionCounter;
+extern int flags;
 
 void sc_memoryInit ();
 
