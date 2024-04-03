@@ -1,5 +1,9 @@
+#ifndef MYSIMPLECOMPUTER_H
+#define MYSIMPLECOMPUTER_H
+
 #include <stdio.h>
 #include <stdlib.h>
+#include "Lprint.h"
 
 #define ZERO_MASK 0b00000001
 #define OVERFLOW_MASK 0b00000010
@@ -11,7 +15,7 @@ extern int accumulator;
 extern int instructionCounter;
 extern int flags;
 
-void sc_memoryInit ();
+void sc_memoryInit();
 
 int sc_memorySet (int address, int value);
 
@@ -45,12 +49,4 @@ int sc_commandEncode (int sign, int command, int operand, int *value);
 
 int sc_commandDecode (int value, int *sign, int *command, int *operand);
 
-void printCell (int address);
-
-void printFlags ();
-
-void printDecodedCommand (int value);
-
-void printAccumulator ();
-
-void printCounters ();
+#endif

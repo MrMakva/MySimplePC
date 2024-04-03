@@ -1,4 +1,4 @@
-#include "../include/mySimpleComputer.h"
+#include "mySimpleComputer.h"
 void
 sc_icounterInit ()
 {

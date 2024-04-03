@@ -1,4 +1,4 @@
-#include "../include/mySimpleComputer.h"
+#include "mySimpleComputer.h"
 int
 sc_memorySet (int address, int value)
 {
