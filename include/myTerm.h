@@ -8,7 +8,8 @@
 
 #define ESC_SEQ "\033"
 
-enum colors {
+enum colors
+{
   DEFAULT,
   WHITE = 15,
   BLACK,

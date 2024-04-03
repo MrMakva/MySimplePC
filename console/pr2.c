@@ -1,24 +1,25 @@
-#include "myTerm.h"
-#include "mySimpleComputer.h"
 #include "Lprint.h"
+#include "mySimpleComputer.h"
+#include "myTerm.h"
 #include <time.h>
 #include <unistd.h>
 
 int
 main ()
 {
-  int rows=50, cols=60;
-  mt_getscreensize(&rows, &cols);
-  sc_memoryInit();
+  int rows = 50, cols = 60;
+  mt_getscreensize (&rows, &cols);
+  sc_memoryInit ();
   mt_clrscr ();
 
-  if (rows < 25 || cols < 25) {
-    mt_gotoXY(1, 1);
-    mt_setfgcolor(RED);
-    mt_setbgcolor(WHITE);
-    printf("Screen is too small!\n");
-    return 0;
-  }
+  if (rows < 25 || cols < 25)
+    {
+      mt_gotoXY (1, 1);
+      mt_setfgcolor (RED);
+      mt_setbgcolor (WHITE);
+      printf ("Screen is too small!\n");
+      return 0;
+    }
 
   for (int j = 0; j < 128; j++)
     {
@@ -56,8 +57,8 @@ main ()
       printDecodedCommand (value);
       printTerm (i, 1);
       printCommand ();
-      mt_setcursorvisible(1);
-      sleep(2);
+      mt_setcursorvisible (1);
+      sleep (2);
     }
   return 0;
 }

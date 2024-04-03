@@ -1,9 +1,9 @@
 #ifndef Lprint_h
 #define Lprint_h
 
-#include <math.h>
 #include "mySimpleComputer.h"
 #include "myTerm.h"
+#include <math.h>
 #include <stdio.h>
 
 #define BUFF 20

@@ -1,9 +1,9 @@
 #ifndef MYSIMPLECOMPUTER_H
 #define MYSIMPLECOMPUTER_H
 
+#include "Lprint.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "Lprint.h"
 
 #define ZERO_MASK 0b00000001
 #define OVERFLOW_MASK 0b00000010
@@ -15,7 +15,7 @@ extern int accumulator;
 extern int instructionCounter;
 extern int flags;
 
-void sc_memoryInit();
+void sc_memoryInit ();
 
 int sc_memorySet (int address, int value);
 
