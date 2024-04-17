@@ -13,7 +13,7 @@ printAccumulator ()
 
   str[4] = sign == 0 ? '+' : '-';
 
-  mt_gotoXY (2, 110);
+  mt_gotoXY (2, 93);
   int len = sprintf (str, "sc: %.2x%.2x hex: %.4x", command, operand, value);
   write (1, str, len);
 }

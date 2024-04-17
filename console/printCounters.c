@@ -7,7 +7,7 @@ printCounters ()
 
   sc_icounterGet (&value);
 
-  mt_gotoXY (4, 110);
+  mt_gotoXY (5, 98);
   int len = sprintf (str, "IC: +%.4x", value);
   write (1, str, len);
 }

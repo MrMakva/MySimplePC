@@ -39,12 +39,12 @@ printTerm (int address, int input)
   last_value[1] = last_value[0];
   last_value[0] = address;
 
-  mt_gotoXY (22, 110);
+  mt_gotoXY (21, 102);
   write (1, str, len);
 
   for (int i = 1; i < 6; i++)
     {
-      mt_gotoXY (22 + i, 110);
+      mt_gotoXY (21 + i, 102);
       sc_memoryGet (last_value[i], &value);
       sc_commandDecode (value, &sign, &command, &operand);
       len = sprintf (

@@ -15,6 +15,6 @@ printFlags ()
         }
     }
 
-  mt_gotoXY (2, 140);
+  mt_gotoXY (2, 123);
   write (1, str, BUFF);
 }

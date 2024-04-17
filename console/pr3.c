@@ -1,6 +1,8 @@
 #include "Lprint.h"
 #include "mySimpleComputer.h"
 #include "myTerm.h"
+#include <errno.h>
+#include <fcntl.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -11,15 +13,14 @@ main ()
   mt_getscreensize (&rows, &cols);
   sc_memoryInit ();
   mt_clrscr ();
-
-  if (rows < 25 || cols < 25)
-    {
-      mt_gotoXY (1, 1);
-      mt_setfgcolor (RED);
-      mt_setbgcolor (WHITE);
-      printf ("Screen is too small!\n");
-      return 0;
-    }
+  print_interface ();
+  //  if (rows < 25 || cols < 25) {
+  //   mt_gotoXY(1, 1);
+  //   mt_setfgcolor(RED);
+  //   mt_setbgcolor(WHITE);
+  //   printf("Screen is too small!\n");
+  //   return 0;
+  // }
 
   for (int j = 0; j < 128; j++)
     {
@@ -55,9 +56,11 @@ main ()
       sc_memoryGet (i, &value);
       sc_icounterSet (value);
       printDecodedCommand (value);
+
       printTerm (i, 1);
       printCommand ();
       mt_setcursorvisible (1);
+      output_BigChars ();
       sleep (2);
     }
   return 0;

@@ -14,7 +14,7 @@ printCommand (void)
 
   int len = sprintf (str, "+%d", command);
 
-  mt_gotoXY (4, 135);
+  mt_gotoXY (5, 125);
 
   write (1, str, len);
 }

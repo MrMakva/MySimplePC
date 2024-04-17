@@ -15,7 +15,7 @@ printDecodedCommand (int value)
   sprintf (str, "dec: %.5d | oct: %.6o | hex: %.4x | bin: %s", value, value,
            value, bin);
 
-  mt_gotoXY (18, 2);
+  mt_gotoXY (17, 2);
 
   write (1, str, 60);
 }
