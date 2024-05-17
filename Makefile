@@ -11,6 +11,11 @@ mSC = mySimpleComputer
 SRC_mSC := $(wildcard $(mSC)/*.c)
 mTm = myTerm
 mBS= myBigChars
+mRK= myReadKey
+
+SOURCES_MRK = $(wildcard $(mRK)/*.c)
+OBJECT_MRK = $(patsubst $(mRK)/%.c, $(mRK)/%.o, $(SOURCES_MRK))
+LIBRARY_MRK = $(SRC_DIR)/myReadKey.a
 
 SOURCES_MBS = $(wildcard $(mBS)/*.c)
 OBJECT_MBS = $(patsubst $(mBS)/%.c, $(mBS)/%.o, $(SOURCES_MBS))
@@ -31,8 +36,8 @@ LIBRARY_SRC = $(SRC_DIR)/Lprint.a
 # Сборка
 all: $(TARGET)
 
-$(TARGET): $(OBJ) $(LIBRARY_SRC) $(LIBRARY_MSC) $(LIBRARY_MT) $(LIBRARY_MBS)
-	gcc -Wall -o $@ $^
+$(TARGET): $(OBJ) $(LIBRARY_SRC) $(LIBRARY_MSC) $(LIBRARY_MT) $(LIBRARY_MBS) $(LIBRARY_MRK)
+	gcc -Wall -ggdb -o $@ $^
 
 $(SHRIFT_BIN):$(SHRIFT_OBJ)
 	./console/font
@@ -51,29 +56,35 @@ $(LIBRARY_SRC): $(OBJECT_SRC)
 $(LIBRARY_MBS): $(OBJECT_MBS)
 	ar rcs $@ $^
 
+$(LIBRARY_MRK): $(OBJECT_MRK)
+	ar rcs $@ $^
+
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c 
-	gcc -Wall -c $< -o $@ -I./include
+	gcc -Wall -ggdb -c $< -o $@ -I./include
 
 $(mSC)/%.o: $(mSC)/%.c 
-	gcc -Wall -c $< -o $@ -I./include
+	gcc -Wall -ggdb -c $< -o $@ -I./include
 
 $(mTm)/%.o: $(mTm)/%.c 
-	gcc -Wall -c $< -o $@ -I./include
+	gcc -Wall -ggdb -c $< -o $@ -I./include
 
 $(mBS)/%.o: $(mBS)/%.c 
-	gcc -Wall -c $< -o $@ -I./include
+	gcc -Wall -ggdb -c $< -o $@ -I./include
+
+$(mRK)/%.o: $(mRK)/%.c 
+	gcc -Wall -ggdb -c $< -o $@ -I./include
 
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.c 
-	gcc -Wall -c $< -o $@ -I./include
+	gcc -Wall -ggdb -c $< -o $@ -I./include
 
 # Для форматирования
-SRC_FILES := $(wildcard $(SRC_DIR)/*.c $(mSC)/*.c $(mTm)/*.c $(mBS)/*.c include/*.h)
+SRC_FILES := $(wildcard $(SRC_DIR)/*.c $(mSC)/*.c $(mTm)/*.c $(mBS)/*.c $(mRK)/*.c include/*.h)
 format:
 	for file in $(SRC_FILES); do \
 		clang-format --style=GNU -i --verbose $$file; \
 	done
 
-SRC_CLEAN := $(wildcard $(mSC)/*.o $(mTm)/*.o $(mBS)/*.o)
+SRC_CLEAN := $(wildcard $(mSC)/*.o $(mTm)/*.o $(mBS)/*.o $(mRK)/*.o)
 clean:
 	rm -f $(SRC_CLEAN)
 	rm -f $(TARGET)

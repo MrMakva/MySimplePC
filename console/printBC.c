@@ -2,9 +2,8 @@
 #include <fcntl.h>
 
 int
-output_BigChars ()
+output_BigChars (int cursor)
 {
-  int cursor = 0;
   int value, command, operand, sing = 0;
   if (sc_memoryGet (cursor, &value) < 0
       || sc_commandDecode (value, &sing, &command, &operand) < 0)
@@ -33,6 +32,15 @@ output_BigChars ()
   bc_printbigchar (bc_NUMS[(command & 0xf) % 16], 9, 111, WHITE, BLACK);
   bc_printbigchar (bc_NUMS[(operand >> 4) & 0xf % 16], 9, 120, WHITE, BLACK);
   bc_printbigchar (bc_NUMS[(operand & 0xf) % 16], 9, 129, WHITE, BLACK);
+
+  mt_gotoXY (17, 93);
+  mt_setfgcolor (BLUE);
+  char buffer[100];
+  int buffer_size
+      = sprintf (buffer, "номер редактируемой ячейки: %c%c%d",
+                 (cursor < 100) ? '0' : 0, (cursor < 10) ? '0' : 0, cursor);
+  write (1, buffer, buffer_size);
+  mt_setfgcolor (WHITE);
 
   return 0;
 }
