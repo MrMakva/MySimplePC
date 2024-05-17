@@ -1,3 +1,5 @@
-console/pr1
+console/font
+console/font.bin
+console/pr4
 *.o
 *.a

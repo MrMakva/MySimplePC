@@ -1,12 +1,12 @@
 TARGETCLEAN = console/%.o
-TARGET = console/pr3
+TARGET = console/pr4
 SHRIFT_C = console/font.c
 SHRIFT_OBJ = console/font
 SHRIFT_BIN = console/font.bin
 SRC_DIR = console
-SRC = $(SRC_DIR)/pr3.c
+SRC = $(SRC_DIR)/pr4.c
 OBJ_DIR = $(SRC_DIR)
-OBJ = $(OBJ_DIR)/pr3.o
+OBJ = $(OBJ_DIR)/pr4.o
 mSC = mySimpleComputer
 SRC_mSC := $(wildcard $(mSC)/*.c)
 mTm = myTerm
