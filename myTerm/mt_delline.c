@@ -1,8 +1,8 @@
-#include "myTerm.h"
+#include <myTerm.h>
+
 int
-mt_delline ()
+mt_delline (void)
 {
-  const char *str = "[\EM";
-  write (1, str, strlen (str));
+  printf ("\033[K");
   return 0;
 }

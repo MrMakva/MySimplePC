@@ -1,8 +1,8 @@
-#include "myReadKey.h"
+#include <myReadKey.h>
+#include <rk_structs.h>
 
 int
-rk_mytermrestore ()
+rk_myTermRestore ()
 {
-  tcsetattr (fileno (stdin), TCSAFLUSH, &save);
-  return 0;
+  return tcsetattr (0, TCSANOW, &termTemp);
 }

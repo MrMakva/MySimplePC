@@ -1,5 +1,9 @@
-#include "mySimpleComputer.h"
-int memory[128];
+#include <mySimpleComputer.h>
+#include <sc.h>
+
+int *memory;
 int accumulator;
-int instructionCounter;
-int flags;
+int count;
+int flagRegister;
+CacheLine *cache;
+bool updateStatic;

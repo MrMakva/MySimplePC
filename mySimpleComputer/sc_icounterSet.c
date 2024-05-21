@@ -1,9 +1,14 @@
-#include "mySimpleComputer.h"
+#include <mySimpleComputer.h>
+#include <sc.h>
+
 int
 sc_icounterSet (int value)
 {
-  if (value >= 100)
-    return -1;
-  instructionCounter = value;
+  if (value < 0 || value > 128)
+    {
+      return -1;
+    }
+
+  count = value;
   return 0;
 }

@@ -1,9 +1,14 @@
-#include "myTerm.h"
+#include <myTerm.h>
+
 int
-mt_gotoXY (int string, int column)
+mt_gotoXY (int col, int row)
 {
-  char buf[16];
-  int len = sprintf (buf, "\E[%d;%dH", string, column);
-  write (1, buf, len);
+  int rows, cols;
+  if (mt_getscreensize (&rows, &cols) == -1)
+    return -1;
+  if ((row > rows) || (row <= 0) || (col > cols) || (col <= 0))
+    return -1;
+
+  printf ("\033[%d;%dH", row, col);
   return 0;
 }

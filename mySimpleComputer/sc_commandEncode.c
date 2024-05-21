@@ -1,13 +1,31 @@
-#include "mySimpleComputer.h"
-int
-sc_commandEncode (int sign, int command, int operand, int *value)
-{
-  if (sign != 0 && sign != 1 || sc_commandValidate (command) != 0
-      || operand < 0 || operand >= MEMORY_SIZE || value == NULL)
-    {
-      return -1;
-    }
+#include <mySimpleComputer.h>
+#include <sc.h>
 
-  *value = (sign << 14) | (command << 7) | operand;
+int
+sc_commandEncode (int command, int operand, int *value)
+{
+  if (command > 0x7F)
+    return -1;
+  if (operand > 0x7F)
+    return -1;
+
+  *value = 0;
+
+  for (int i = 0; i < 7; i++)
+    {
+      int bit = (operand >> i) & 1;
+      *value |= (bit << i);
+    }
+  for (int i = 0; i < 7; i++)
+    {
+      int bit = (command >> i) & 1;
+      *value |= (bit << (i + 7));
+    }
+  // if (!sc_commandValidate(command & 0x7F))
+  //   {
+  //     sc_regSet (INCORRECT_COMMAND_RECEIVED, 1);
+  //     //return -1;
+  //   }
+  // *value = (command << 7) | operand;
   return 0;
 }

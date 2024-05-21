@@ -1,4 +1,6 @@
-#include "mySimpleComputer.h"
+#include <mySimpleComputer.h>
+#include <sc.h>
+
 int
 sc_icounterGet (int *value)
 {
@@ -7,6 +9,6 @@ sc_icounterGet (int *value)
       return -1;
     }
 
-  *value = instructionCounter;
+  *value = count;
   return 0;
 }

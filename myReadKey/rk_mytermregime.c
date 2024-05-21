@@ -1,27 +1,23 @@
-#include "myReadKey.h"
+#include <myReadKey.h>
+#include <rk_structs.h>
 
 int
-rk_mytermregime (int regime, int vtime, int vmin, int echo, int sigint)
+rk_myTermRegime (int regime, int vtime, int vmin, int echo, int sigint)
 {
-  struct termios curr;
-  tcgetattr (fileno (stdin), &curr);
-  //канонический режим
+  struct termios term;
+  tcgetattr (0, &term);
+
   if (regime)
+    term.c_lflag |= ICANON;
+  else
     {
-      curr.c_lflag |= ICANON;
+      term.c_lflag &= ~ICANON;
+      sigint ? (term.c_lflag |= ISIG) : (term.c_lflag &= ~ISIG);
+      echo ? (term.c_lflag |= ECHO) : (term.c_lflag &= ~ECHO);
+      term.c_cc[VMIN] = vmin;
+      term.c_cc[VTIME] = vtime;
     }
-  //неканонический режим
-  else if (!regime)
-    {
-      curr.c_lflag &= ~ICANON;
-      sigint ? (curr.c_lflag |= ISIG) : (curr.c_lflag &= ~ISIG);
-      echo ? (curr.c_lflag |= ECHO) : (curr.c_lflag &= ~ECHO);
-      curr.c_cc[VMIN] = vmin;
-      curr.c_cc[VTIME] = vtime;
-    }
-  if (tcsetattr (fileno (stdin), TCSAFLUSH, &curr) != 0)
-    {
-      return -1;
-    }
+
+  tcsetattr (0, TCSAFLUSH, &term);
   return 0;
 }

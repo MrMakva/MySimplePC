@@ -1,15 +1,8 @@
-#include "myTerm.h"
+#include <myTerm.h>
+
 int
-mt_clrscr ()
+mt_clrscr (void)
 {
-  char output[10];
-  sprintf (output, "\E[H\E[2J");
-  if (write (1, output, strlen (output)) == strlen (output))
-    {
-      return 0;
-    }
-  else
-    {
-      return -1;
-    }
+  printf ("\033[H\033[2J");
+  return 0;
 }

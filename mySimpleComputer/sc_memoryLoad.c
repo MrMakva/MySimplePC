@@ -1,26 +1,23 @@
-#include "mySimpleComputer.h"
+#include <mySimpleComputer.h>
+#include <sc.h>
+
 int
 sc_memoryLoad (char *filename)
 {
-
-  FILE *file;
-  file = fopen (filename, "rb");
-  //создание резервного массива на случай, если память будет считана
-  //неправильно
-  int mas_of_ram_resrv[MEMORY_SIZE];
-  if (!file
-      || fread (mas_of_ram_resrv, sizeof (int), MEMORY_SIZE, file)
-             != MEMORY_SIZE)
+  FILE *addressData = fopen (filename, "rb");
+  if (addressData == NULL)
     {
+      perror ("Error opening file");
       return -1;
     }
-  // fread (mas_of_ram_resrv, sizeof (int), MEMORY_SIZE, file);
-  //воспроизводится запись из резервного массива в текущий
-  for (int i = 0; i < MEMORY_SIZE - 1; i++)
+
+  if (fread (memory, sizeof (int), 128, addressData) != 128)
     {
-      memory[i] = mas_of_ram_resrv[i];
+      fprintf (stderr, "Error reading from file\n");
+      fclose (addressData);
+      return -1;
     }
 
-  fclose (file);
+  fclose (addressData);
   return 0;
 }

@@ -1,22 +1,16 @@
-#include "myBigChars.h"
+#include <myBigChars.h>
+#include <myTerm.h>
+
 int
 bc_bigcharread (int fd, int *big, int need_count, int *count)
 {
-  if (big == NULL || need_count < 1 || count == NULL)
+  *count = 0;
+  for (int i = 0; i < need_count * 2; ++i)
     {
-      *count = 0;
-      return -1;
+      if (read (fd, &big[i], sizeof (unsigned int)) == -1)
+        return -1;
+      if (!((i + 1) % 2))
+        (*count)++;
     }
-
-  int cnt = read (fd, big, (sizeof (int)) * need_count * 2);
-
-  if (cnt == -1)
-    {
-      *count = 0;
-      return -1;
-    }
-
-  *count = cnt / (sizeof (int) * 2);
-
   return 0;
 }

@@ -1,53 +1,28 @@
-#include "myBigChars.h"
+#include <myBigChars.h>
+#include <myTerm.h>
 
 int
-bc_printbigchar (int bigchar[], int x, int y, enum colors frontcolor,
-                 enum colors backcolor)
+bc_printbigchar (int *big, int x, int y, enum colors colorFg,
+                 enum colors colorBg)
 {
+  if (colorFg != DEFAULT)
+    mt_setfgcolor (colorFg);
+  if (colorBg != DEFAULT)
+    mt_setbgcolor (colorBg);
 
-  if (mt_setfgcolor (frontcolor) == -1 || mt_setbgcolor (backcolor) == -1
-      || mt_gotoXY (x, y) == -1)
-    {
-      return -1;
-    }
+  for (int i = 0; i < 8; ++i)
+    for (int j = 0; j < 8; ++j)
+      {
+        mt_gotoXY (x + i, y + j);
+        int value;
+        if (bc_getbigcharpos (big, i, j, &value))
+          return -1;
+        if (value)
+          bc_printA (ACS_CKBOARD);
+        else
+          printf ("%c", ' ');
+      }
 
-  for (int i = 0; i < 4; i++)
-    {
-      int value = (bigchar[0] >> (i * 8)) & 0xff;
-      for (int j = 0; j < 8; j++)
-        {
-          mt_gotoXY (x + i, y + j);
-          int ch = (value >> (7 - j))
-                   & 0x01; // Обращение к битам в обычном порядке
-          if (ch == 1)
-            {
-              bc_printA (CKBOARD); // Функция для вывода символа CKBOARD
-            }
-          else
-            {
-              write (1, " ", 1);
-            }
-        }
-    }
-
-  for (int i = 0; i < 4; i++)
-    {
-      int value = (bigchar[1] >> (i * 8)) & 0xff;
-      for (int j = 0; j < 8; j++)
-        {
-          mt_gotoXY (x + 4 + i, y + j);
-          int ch = (value >> (7 - j))
-                   & 0x01; // Обращение к битам в обычном порядке
-          if (ch == 1)
-            {
-              bc_printA (CKBOARD); // Функция для вывода символа CKBOARD
-            }
-          else
-            {
-              write (1, " ", 1);
-            }
-        }
-    }
-
+  mt_setdefaultcolors ();
   return 0;
 }

@@ -1,21 +1,30 @@
-#include "mySimpleComputer.h"
-int
-sc_regSet (int regFlag, int value)
-{
-  if (regFlag != ZERO_MASK && regFlag != OVERFLOW_MASK
-      && regFlag != DIVISION_BY_ZERO_MASK)
-    {
-      return -1;
-    }
+#include <mySimpleComputer.h>
+#include <sc.h>
 
-  if (value)
+int
+sc_regSet (int regist, int value)
+{
+  if (regist > 0 && regist < 6)
     {
-      flags |= regFlag;
+      if (value == 1)
+        {
+          flagRegister = flagRegister | (1 << (regist - 1));
+          return 0;
+        }
+      else if (value == 0)
+        {
+          flagRegister = flagRegister & (~(1 << (regist - 1)));
+          return 0;
+        }
+      else
+        {
+          sc_regSet (OVERFLOW_OPERATION, 1);
+          return -1;
+        }
     }
   else
     {
-      flags &= ~regFlag;
+      sc_regSet (OVERFLOW_OPERATION, 1);
+      return -1;
     }
-
-  return 0;
 }

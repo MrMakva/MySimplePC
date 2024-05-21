@@ -1,164 +1,82 @@
-#include "myReadKey.h"
+#include <myReadKey.h>
+#include <rk_structs.h>
 
 int
-rk_readkey (enum keys *key)
+rk_readKey (enum keys *key)
 {
+  char buffer[5] = "\0";
+  rk_myTermRegime (0, 30, 0, 0, 0);
+  read (0, buffer, 5);
+  rk_myTermRestore ();
 
-  char buf_local[MIN_BUF_SIZE - 1];
-  //очистка буфера
-  for (int i = 0; i < MIN_BUF_SIZE; i++)
+  if (buffer[0] == '\033')
     {
-      buf_local[i] = 0;
-    }
-  //переключаем терминал в неканонический режим
-  rk_mytermregime (0, 0, 1, 0, 1);
-
-  //считываем первый введённый символ
-  fflush (stdin); //очистка потока ввода
-  read (fileno (stdin), buf_local, MIN_BUF_SIZE);
-
-  if (!key)
-    {
-      return -1;
-    }
-  //проверка введённого символа
-  if (buf_local[0] == '\033')
-    { // Esc-последовательности
-      switch (buf_local[1])
+      if (buffer[1] == '[')
         {
-        case '\0':
-          *key = ESC_KEY;
-          break;
-        case '[':
-          switch (buf_local[2])
+          switch (buffer[2])
             {
             case 'A':
-              *key = UP_KEY;
+              *key = UP;
               break;
             case 'B':
-              *key = DOWN_KEY;
+              *key = DOWN;
               break;
             case 'C':
-              *key = RIGHT_KEY;
+              *key = RIGHT;
               break;
             case 'D':
-              *key = LEFT_KEY;
+              *key = LEFT;
               break;
             case '1':
-              if (buf_local[3] == '5' && buf_local[4] == '~')
-                *key = F5_KEY;
-              if (buf_local[3] == '7' && buf_local[4] == '~')
-                *key = F6_KEY;
+              if (buffer[3] == '5')
+                {
+                  *key = F5;
+                }
+              else if (buffer[3] == '7')
+                {
+                  *key = F6;
+                }
               break;
             default:
-              *key = INVALID_KEY;
-              break;
+              *key = ERROR;
             }
-          break;
-        default:
-          *key = INVALID_KEY;
-          break;
+        }
+      else if (buffer[1] == '\0')
+        {
+          *key = EXIT;
         }
     }
-  else if (buf_local[0] == '\n' && buf_local[1] == '\0')
-    { // клавиша Enter
-      *key = ENTER_KEY;
+  else if (buffer[0] == '\n')
+    {
+      *key = ENTER;
+    }
+  else if (buffer[0] == '\003')
+    {
+      *key = EXIT;
+    }
+  else if (buffer[0] == 'l')
+    {
+      *key = LOAD;
+    }
+  else if (buffer[0] == 's')
+    {
+      *key = SAVE;
+    }
+  else if (buffer[0] == 'r')
+    {
+      *key = RUN;
+    }
+  else if (buffer[0] == 't')
+    {
+      *key = STEP;
+    }
+  else if (buffer[0] == 'i')
+    {
+      *key = RESET;
     }
   else
-    { // прочие клавиши
-      switch (buf_local[0])
-        {
-        case 'l':
-        case 'L':
-          *key = L_KEY;
-          break;
-        case 's':
-        case 'S':
-          *key = S_KEY;
-          break;
-        case 'r':
-        case 'R':
-          *key = R_KEY;
-          break;
-        case 't':
-        case 'T':
-          *key = T_KEY;
-          break;
-        case 'i':
-        case 'I':
-          *key = I_KEY;
-          break;
-        case 'a':
-        case 'A':
-          *key = A_KEY;
-          break;
-        case 'b':
-        case 'B':
-          *key = B_KEY;
-          break;
-        case 'c':
-        case 'C':
-          *key = C_KEY;
-          break;
-        case 'd':
-        case 'D':
-          *key = D_KEY;
-          break;
-        case 'e':
-        case 'E':
-          *key = E_KEY;
-          break;
-        case 'f':
-        case 'F':
-          *key = F_KEY;
-          break;
-
-        case '0':
-          *key = ZERO_KEY;
-          break;
-
-        case '1':
-          *key = ONE_KEY;
-          break;
-        case '2':
-          *key = TWO_KEY;
-          break;
-        case '3':
-          *key = THREE_KEY;
-          break;
-        case '4':
-          *key = FOUR_KEY;
-          break;
-        case '5':
-          *key = FIVE_KEY;
-          break;
-        case '6':
-          *key = SIX_KEY;
-          break;
-        case '7':
-          *key = SEVEN_KEY;
-          break;
-        case '8':
-          *key = EIGHT_KEY;
-          break;
-        case '9':
-          *key = NINE_KEY;
-          break;
-
-        case '+':
-          *key = PLUS_KEY;
-          break;
-        case '-':
-          *key = MINUS_KEY;
-          break;
-
-        case 0:
-          *key = NOTHING_KEY;
-          break;
-        default:
-          *key = INVALID_KEY;
-          break;
-        }
+    {
+      *key = ERROR;
     }
 
   return 0;

@@ -1,6 +1,9 @@
-#include "mySimpleComputer.h"
-void
-sc_regInit ()
+#include <mySimpleComputer.h>
+#include <sc.h>
+
+int
+sc_regInit (void)
 {
-  flags = 0;
+  flagRegister = 0;
+  return 0;
 }

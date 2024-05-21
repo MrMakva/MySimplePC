@@ -1,25 +1,15 @@
-#include "myBigChars.h"
+#include <myBigChars.h>
+#include <myTerm.h>
+
 int
 bc_setbigcharpos (int *big, int x, int y, int value)
 {
-
-  if (big == NULL || x < 0 || y < 0 || x > 7 || y > 7 || value > 1
-      || value < 0)
-    {
-      return -1;
-    }
-
-  int bc_position = x < 4 ? 0 : 1;
-  x = x % 4;
-
-  if (value == 1)
-    {
-      big[bc_position] |= 1 << (x * 8 + y);
-    }
+  if ((x < 0) || (x > 7) || (y < 0) || (y > 7))
+    return -1;
+  if (value)
+    big[y / 4] |= (1 << (8 * (y % 4) + (7 - x)));
   else
-    {
-      big[bc_position] &= ~(1 << (x * 8 + y));
-    }
+    big[y / 4] &= ~(1 << (8 * (y % 4) + (7 - x)));
 
   return 0;
 }
